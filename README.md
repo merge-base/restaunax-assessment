@@ -10,8 +10,6 @@ This assessment is designed to be completed in **3-5 hours**. We respect your ti
 
 ## 🚀 Getting Started
 
-> **⚡ Quick Start**: See [QUICKSTART.md](QUICKSTART.md) for a condensed setup guide.
-
 ### 1. Clone and Setup
 
 ```bash
@@ -228,6 +226,50 @@ You have **7 days** from receiving this assessment to submit your solution. Focu
 4. **Material-UI**: Use their components - don't reinvent the wheel
 5. **Test Your Work**: Make sure all API endpoints work and the UI is functional
 6. **Document As You Go**: Update the README while building, not at the end
+
+## 🔧 Common Issues & Troubleshooting
+
+**Port already in use?**
+- Backend: Change port in `backend/src/index.ts`
+- Frontend: Change port in `frontend/vite.config.ts`
+
+**TypeScript errors?**
+- Make sure you're importing types from `../../shared/types`
+- Run `npm install` in both directories
+- Check that you're using Node.js 18+
+
+**Can't connect to API?**
+- Check backend is running on port 3000
+- Verify CORS is enabled (already configured)
+- Check browser console for errors
+
+**Build errors?**
+- Delete `node_modules` and `package-lock.json`, then run `npm install` again
+- Make sure both frontend and backend are using compatible TypeScript versions
+
+## 📁 Project Structure
+
+```
+.
+├── backend/
+│   ├── src/
+│   │   ├── index.ts              ✅ Express server configured
+│   │   ├── routes/orders.ts      🔨 IMPLEMENT THIS
+│   │   └── data/mockOrders.ts    ✅ 15 sample orders ready
+│   └── package.json              ✅ Dependencies configured
+├── frontend/
+│   ├── src/
+│   │   ├── App.tsx               🔨 BUILD YOUR UI HERE
+│   │   ├── main.tsx              ✅ React + MUI configured
+│   │   └── services/api.ts       🔨 ADD API CALLS HERE
+│   └── package.json              ✅ Dependencies configured
+└── shared/
+    └── types.ts                  ✅ Shared types for both ends
+```
+
+**Legend:**
+- ✅ Ready to use (no changes needed)
+- 🔨 Implement your solution here
 
 ## ❓ Questions?
 
