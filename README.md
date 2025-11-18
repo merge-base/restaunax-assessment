@@ -4,9 +4,7 @@ Welcome to the Restaunax Technical Assessment! 🍕🚀
 
 Thank you for your interest in joining our team at Restaunax. This assessment is designed to evaluate your essential full-stack development skills within the context of our restaurant management platform.
 
-## ⏱️ Time Expectation: 3-5 Hours
-
-This assessment is designed to be completed in **3-5 hours**. We respect your time and have provided starter code to help you focus on implementing functionality rather than configuration.
+We've provided starter code to help you focus on implementing functionality rather than configuration. Take the time you need to showcase your skills.
 
 ## 🚀 Getting Started
 
@@ -53,24 +51,29 @@ As a developer at Restaunax, you'll be working on our restaurant management syst
 
 **Data Storage (Choose One):**
 
-- **Recommended**: Use the provided `mockOrders.ts` file (fastest setup)
+- **Recommended**: Use the provided `mockOrders.ts` file (simplest approach)
 - In-memory data structure
 - JSON file storage
 - SQLite (if you want to showcase database skills)
-- PostgreSQL with Prisma (advanced, will take longer)
+- PostgreSQL with Prisma (if you want to demonstrate advanced database skills)
 
-**Note:** We've provided starter code with mock data. You can use this for a quick implementation (3-4 hours) or replace it with a real database if you want to showcase those skills (5-6 hours).
+**Note:** We've provided starter code with mock data. Feel free to use it as-is or replace it with your own storage solution if you want to showcase those skills.
 
 ## 🎯 Your Task
 
 ### 1. Backend API
 
-Implement the following endpoints in `backend/src/routes/orders.ts`:
+Implement endpoints in `backend/src/routes/orders.ts`. At minimum, you should implement:
 
-- `GET /api/orders` — List all orders (with optional status filtering)
-- `GET /api/orders/:id` — Retrieve a specific order
+**Core Requirements:**
+- `GET /api/orders` — List all orders (with optional status filtering via query params)
+- `GET /api/orders/:id` — Retrieve a specific order by ID
+
+**Optional (Recommended):**
 - `PATCH /api/orders/:id` — Update order status
-- `POST /api/orders` — Create a new order (for testing)
+- `POST /api/orders` — Create a new order
+
+Feel free to add additional endpoints or functionality that you think would be useful for an order management system.
 
 **Order Schema** (already defined in `shared/types.ts`):
 
@@ -100,13 +103,19 @@ Implement the following endpoints in `backend/src/routes/orders.ts`:
 
 ### 2. Frontend UI
 
-Build a dashboard in `frontend/src/` using **React and Material-UI** that includes:
+Build a dashboard in `frontend/src/` using **React and Material-UI**. At minimum, your UI should:
 
-- **Orders Dashboard**: Display orders grouped or filtered by status
-- **Order Details**: Show individual order information
-- **Status Updates**: Allow changing order status with a dropdown or buttons
-- **Responsive Design**: Works well on mobile and desktop
-- **Loading States**: Handle loading and error states gracefully
+**Core Requirements:**
+- Display a list of orders with relevant information
+- Filter or group orders by status
+- Show loading and error states appropriately
+- Use Material-UI components
+
+**Get Creative:**
+- Design the layout however you think works best
+- Add any additional features you think would enhance the user experience
+- Show us your UI/UX sensibilities
+- If you implemented PATCH for status updates, add UI controls for it
 
 ### 3. Integration
 
@@ -126,17 +135,21 @@ Build a dashboard in `frontend/src/` using **React and Material-UI** that includ
 | **Error Handling**    | Graceful handling of common errors                  |
 | **Code Quality**      | Readable, maintainable code with consistent style   |
 
-## 🌟 Bonus Points (Optional - Pick ONE if time permits)
+## 🌟 Bonus Ideas (Optional)
 
-**Only attempt these if you've completed the core requirements:**
+**If you've completed the core requirements and want to showcase additional skills:**
 
 - 🐳 **Docker**: Containerize the application with docker-compose
-- 📊 **Analytics**: Add a simple dashboard with order statistics
-- 🔄 **Real-time**: Implement WebSocket updates with Socket.IO
-- 🎨 **UX Polish**: Exceptional UI/UX with animations and polish
-- 🧪 **Testing**: Add unit/integration tests
+- 📊 **Analytics**: Add order statistics or dashboard visualizations
+- 🔄 **Real-time Updates**: Implement WebSocket updates with Socket.IO
+- 🎨 **UX Polish**: Add animations, transitions, or advanced interactions
+- 🧪 **Testing**: Add unit or integration tests
+- 🔍 **Search/Filters**: Advanced filtering or search functionality
+- 📱 **Mobile-First**: Exceptional mobile responsiveness
+- ♿ **Accessibility**: ARIA labels and keyboard navigation
+- 🎯 **Your Idea**: Surprise us with something creative!
 
-**Note:** We value a solid implementation of core features over incomplete bonus features.
+**Note:** A solid, clean implementation of core features is more valuable than rushed bonus features.
 
 ## 📦 What's Included
 
@@ -192,9 +205,9 @@ Add a section to this README with:
 
 1. **Setup Instructions**: Clear steps to run your application
 2. **Implementation Notes**: Brief overview of your approach and architecture decisions
-3. **Time Spent**: Approximate hours spent on the assessment
+3. **Design Decisions**: Explain key technical choices you made and why
 4. **Challenges**: Any interesting problems you solved or obstacles you encountered
-5. **Bonus Features**: If you implemented any, explain what and why
+5. **Additional Features**: If you implemented bonus features or went beyond requirements, explain what and why
 
 ### 3. Share Your Repository
 
@@ -209,23 +222,15 @@ Add a section to this README with:
 - ❌ Build artifacts (`dist/`, `build/`)
 - ❌ IDE-specific files (`.vscode/`, `.idea/`)
 
-## ⏰ Timeline
-
-You have **7 days** from receiving this assessment to submit your solution. Focus on:
-
-- ✅ Core functionality working end-to-end
-- ✅ Clean, typed TypeScript code
-- ✅ Functional UI with Material-UI
-- ❌ Don't over-engineer or perfect every detail
-
 ## 💡 Tips for Success
 
-1. **Start Simple**: Get the basic CRUD operations working first
-2. **Use the Mock Data**: Don't spend time on database setup unless you want to showcase that skill
-3. **Type Safety**: Leverage the shared types between frontend and backend
-4. **Material-UI**: Use their components - don't reinvent the wheel
-5. **Test Your Work**: Make sure all API endpoints work and the UI is functional
-6. **Document As You Go**: Update the README while building, not at the end
+1. **Start Simple**: Get the core GET endpoints working first, then build from there
+2. **Use the Mock Data**: The provided mock data is ready to use - no need to set up a database unless you want to
+3. **Type Safety First**: Leverage the shared types between frontend and backend
+4. **Material-UI Docs**: Check out [MUI documentation](https://mui.com/) - their components are powerful
+5. **Be Creative**: Show us your design sensibilities and problem-solving approach
+6. **Test Your Work**: Make sure your implementation works end-to-end before submitting
+7. **Document Decisions**: Explain your thought process - we want to understand how you think
 
 ## 🔧 Common Issues & Troubleshooting
 
