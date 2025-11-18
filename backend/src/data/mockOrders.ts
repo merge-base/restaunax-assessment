@@ -6,6 +6,9 @@ import { Order } from '../../../shared/types';
  *
  * NOTE: Customer data is currently embedded in each order.
  * Think about how you might improve this data structure.
+ *
+ * IMPORTANT: This data comes from a legacy system. You may want to
+ * validate and sanitize it before using in production.
  */
 
 export const mockOrders: Order[] = [
@@ -33,7 +36,7 @@ export const mockOrders: Order[] = [
     customerRewardPoints: 320,
     orderType: 'pickup',
     status: 'preparing',
-    total: 32.98,
+    total: 32.98, // Total should be 29.98 (18.99 + 7.99 + 3.00)
     createdAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
     items: [
       { id: 'item_004', name: 'BBQ Chicken Pizza', quantity: 1, price: 18.99 },
@@ -75,7 +78,7 @@ export const mockOrders: Order[] = [
   {
     id: 'ord_005',
     customerName: 'Olivia Martinez',
-    customerEmail: 'olivia.m@email.com',
+    customerEmail: 'olivia.martinez.email.com', // Invalid email format (missing @)
     customerPhone: '+1-555-0105',
     customerRewardPoints: 220,
     orderType: 'pickup',
@@ -106,13 +109,13 @@ export const mockOrders: Order[] = [
   },
   {
     id: 'ord_007',
-    customerName: 'Sophia Taylor',
+    customerName: '', // Empty customer name
     customerEmail: 'sophia.t@email.com',
     customerPhone: '+1-555-0107',
     customerRewardPoints: 95,
     orderType: 'pickup',
     status: 'ready',
-    total: 19.98,
+    total: 19.97,
     createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
     items: [
       { id: 'item_018', name: 'Personal Margherita', quantity: 1, price: 9.99 },
@@ -141,7 +144,7 @@ export const mockOrders: Order[] = [
     customerName: 'Ava Thompson',
     customerEmail: 'ava.thompson@email.com',
     customerPhone: '+1-555-0109',
-    customerRewardPoints: 125,
+    customerRewardPoints: -50, // Negative reward points (data corruption)
     orderType: 'pickup',
     status: 'pending',
     total: 38.96,
@@ -209,7 +212,7 @@ export const mockOrders: Order[] = [
     customerRewardPoints: 45,
     orderType: 'pickup',
     status: 'pending',
-    total: 15.99,
+    total: 15.99, // Total should be 12.99 (9.99 + 3.00)
     createdAt: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
     items: [
       { id: 'item_037', name: 'Personal Pepperoni', quantity: 1, price: 9.99 },

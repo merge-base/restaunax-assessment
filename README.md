@@ -8,12 +8,6 @@ Thank you for your interest in joining our team at Restaunax. This assessment is
 
 This assessment is designed to be completed in **3-5 hours**. We respect your time and have provided starter code to help you focus on implementing functionality rather than configuration.
 
-### Recommended Time Allocation:
-- **1-1.5 hours**: Backend API implementation with TypeScript
-- **1.5-2 hours**: Frontend UI with Material-UI
-- **30-45 minutes**: Testing, polish, and documentation
-- **15-30 minutes**: Optional bonus features (if time permits)
-
 ## 🚀 Getting Started
 
 > **⚡ Quick Start**: See [QUICKSTART.md](QUICKSTART.md) for a condensed setup guide.
@@ -53,12 +47,14 @@ As a developer at Restaunax, you'll be working on our restaurant management syst
 ## ✅ Technical Requirements
 
 **Required:**
+
 - ✅ **TypeScript** (strict mode) for both frontend and backend
 - ✅ **React** with **Material-UI** components
 - ✅ **Node.js/Express** backend
 - ✅ Type-safe API contracts between frontend and backend
 
 **Data Storage (Choose One):**
+
 - **Recommended**: Use the provided `mockOrders.ts` file (fastest setup)
 - In-memory data structure
 - JSON file storage
@@ -80,18 +76,18 @@ Implement the following endpoints in `backend/src/routes/orders.ts`:
 
 **Order Schema** (already defined in `shared/types.ts`):
 
-| Field                 | Type                                               |
-| --------------------- | -------------------------------------------------- |
-| id                    | string                                             |
-| customerName          | string                                             |
-| customerEmail         | string                                             |
-| customerPhone         | string                                             |
-| customerRewardPoints  | number                                             |
-| orderType             | "delivery" \| "pickup"                             |
-| items                 | OrderItem[]                                        |
-| status                | "pending" \| "preparing" \| "ready" \| "delivered" |
-| total                 | number                                             |
-| createdAt             | string (ISO format)                                |
+| Field                | Type                                               |
+| -------------------- | -------------------------------------------------- |
+| id                   | string                                             |
+| customerName         | string                                             |
+| customerEmail        | string                                             |
+| customerPhone        | string                                             |
+| customerRewardPoints | number                                             |
+| orderType            | "delivery" \| "pickup"                             |
+| items                | OrderItem[]                                        |
+| status               | "pending" \| "preparing" \| "ready" \| "delivered" |
+| total                | number                                             |
+| createdAt            | string (ISO format)                                |
 
 > **💡 Data Modeling Challenge**: Notice how customer information is embedded in each order? Consider whether this is the best approach for a real-world application. How might you improve this data structure?
 
@@ -180,7 +176,7 @@ restaunax-technical-assessment/
 # Remove the original remote
 git remote remove origin
 
-# Create a new repository on your GitHub account
+# Create a new repository on your GitHub account restaunax-assessment
 # Then add it as your remote
 git remote add origin https://github.com/YOUR_USERNAME/restaunax-assessment.git
 
@@ -218,6 +214,7 @@ Add a section to this README with:
 ## ⏰ Timeline
 
 You have **7 days** from receiving this assessment to submit your solution. Focus on:
+
 - ✅ Core functionality working end-to-end
 - ✅ Clean, typed TypeScript code
 - ✅ Functional UI with Material-UI
@@ -235,6 +232,7 @@ You have **7 days** from receiving this assessment to submit your solution. Focu
 ## ❓ Questions?
 
 If you have questions about the requirements, feel free to:
+
 - Make reasonable assumptions and document them in your README
 - Implement what makes sense based on your interpretation
 - Explain your decision-making process in your submission
