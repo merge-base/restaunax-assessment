@@ -51,13 +51,13 @@ As a developer at Restaunax, you'll be working on our restaurant management syst
 
 **Data Storage (Choose One):**
 
-- **Recommended**: Use the provided `mockOrders.ts` file (simplest approach)
+- **Highly Recommended**: PostgreSQL with Prisma running in a Docker container (demonstrates production-ready skills)
+- Use the provided `mockOrders.ts` file (simplest approach, acceptable)
 - In-memory data structure
 - JSON file storage
-- SQLite (if you want to showcase database skills)
-- PostgreSQL with Prisma (if you want to demonstrate advanced database skills)
+- SQLite
 
-**Note:** We've provided starter code with mock data. Feel free to use it as-is or replace it with your own storage solution if you want to showcase those skills.
+**Note:** While we've provided mock data for quick setup, we highly value candidates who can set up a proper database with Prisma and Docker. This demonstrates real-world full-stack capabilities.
 
 ## 🎯 Your Task
 
