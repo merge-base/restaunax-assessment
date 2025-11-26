@@ -1,69 +1,107 @@
-import { Order, OrderStatus } from '../../../shared/types';
+import { Order, OrderStatus, CreateOrderRequest, ApiError as ApiErrorType } from '../../../shared/types';
 
-// API base URL - candidates will use this when implementing their API calls
 const API_BASE_URL = 'http://localhost:3000/api';
 
-/**
- * API service for interacting with the backend
- * TODO: Implement these functions to call your backend endpoints
- */
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public error?: ApiErrorType
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+async function handleResponse<T>(response: Response): Promise<T> {
+  const data = await response.json();
+
+  if (!response.ok) {
+    const apiError = data as ApiErrorType;
+    throw new ApiError(
+      apiError.message || apiError.error || 'An error occurred',
+      response.status,
+      apiError
+    );
+  }
+
+  return data as T;
+}
 
 export const ordersApi = {
-  /**
-   * Fetch all orders, optionally filtered by status
-   */
-  async getOrders(_status?: OrderStatus): Promise<Order[]> {
-    // TODO: Implement this function
-    // 1. Build the URL with optional status query param
-    // 2. Make a GET request to /api/orders
-    // 3. Handle errors appropriately
-    // 4. Return the parsed JSON response
-    // Example: const url = status ? `${API_BASE_URL}/orders?status=${status}` : `${API_BASE_URL}/orders`;
+  async getOrders(status?: OrderStatus): Promise<Order[]> {
+    try {
+      const url = status
+        ? `${API_BASE_URL}/orders?status=${status}`
+        : `${API_BASE_URL}/orders`;
 
-    throw new Error('Not implemented yet');
+      const response = await fetch(url);
+      return handleResponse<Order[]>(response);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Failed to fetch orders. Please check your network connection.',
+        0
+      );
+    }
   },
 
-  /**
-   * Fetch a single order by ID
-   */
-  async getOrderById(_id: string): Promise<Order> {
-    // TODO: Implement this function
-    // 1. Make a GET request to /api/orders/:id
-    // 2. Handle 404 errors
-    // 3. Return the parsed JSON response
-    // Example: const response = await fetch(`${API_BASE_URL}/orders/${id}`);
-
-    throw new Error('Not implemented yet');
+  async getOrderById(id: string): Promise<Order> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${id}`);
+      return handleResponse<Order>(response);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Failed to fetch order. Please check your network connection.',
+        0
+      );
+    }
   },
 
-  /**
-   * Update an order's status
-   */
-  async updateOrderStatus(_id: string, _status: OrderStatus): Promise<Order> {
-    // TODO: Implement this function
-    // 1. Make a PATCH request to /api/orders/:id
-    // 2. Send the new status in the request body
-    // 3. Handle errors appropriately
-    // 4. Return the updated order
-    // Example: fetch(`${API_BASE_URL}/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
-
-    throw new Error('Not implemented yet');
+  async updateOrderStatus(id: string, status: OrderStatus): Promise<Order> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+      return handleResponse<Order>(response);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Failed to update order status. Please check your network connection.',
+        0
+      );
+    }
   },
 
-  /**
-   * Create a new order (for testing)
-   */
-  async createOrder(_order: Omit<Order, 'id' | 'createdAt'>): Promise<Order> {
-    // TODO: Implement this function
-    // 1. Make a POST request to /api/orders
-    // 2. Send the order data in the request body
-    // 3. Handle validation errors
-    // 4. Return the created order
-    // Example: fetch(`${API_BASE_URL}/orders`, { method: 'POST', body: JSON.stringify(order) })
-
-    throw new Error('Not implemented yet');
+  async createOrder(order: CreateOrderRequest): Promise<Order> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+      });
+      return handleResponse<Order>(response);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Failed to create order. Please check your network connection.',
+        0
+      );
+    }
   },
 };
-
-// Note: API_BASE_URL is available for use in the functions above
-console.log('API configured for:', API_BASE_URL);

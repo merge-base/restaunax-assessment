@@ -1,69 +1,166 @@
 import { Router, Request, Response } from 'express';
-import { Order } from '../../../shared/types';
+import { Order, OrderStatus, CreateOrderRequest, UpdateOrderStatusRequest } from '../../../shared/types';
 import { mockOrders } from '../data/mockOrders';
 
 const router = Router();
 
-// TODO: Implement your data storage solution here
-// This starter uses in-memory storage with mock data
-// @ts-expect-error - This variable is for candidates to use when implementing endpoints
 let orders: Order[] = [...mockOrders];
 
-/**
- * GET /api/orders
- * List all orders, optionally filtered by status
- * Query params: ?status=pending (optional)
- */
-router.get('/', (_req: Request, res: Response) => {
-  // TODO: Implement this endpoint
-  // 1. Get the status query parameter if provided
-  // 2. Filter orders by status if query param exists
-  // 3. Return the filtered/all orders
+router.get('/', (req: Request, res: Response) => {
+  try {
+    const status = req.query.status as OrderStatus | undefined;
 
-  res.status(501).json({ error: 'Not implemented yet' });
+    let filteredOrders = orders;
+
+    if (status) {
+      const validStatuses: OrderStatus[] = ['pending', 'preparing', 'ready', 'delivered'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({
+          error: 'Invalid status',
+          message: `Status must be one of: ${validStatuses.join(', ')}`,
+        });
+      }
+      filteredOrders = orders.filter((order) => order.status === status);
+    }
+
+    filteredOrders = [...filteredOrders].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    return res.json(filteredOrders);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
 });
 
-/**
- * GET /api/orders/:id
- * Get a specific order by ID
- */
-router.get('/:id', (_req: Request, res: Response) => {
-  // TODO: Implement this endpoint
-  // 1. Extract the order ID from params
-  // 2. Find the order in your data store
-  // 3. Return 404 if not found, or the order if found
+router.get('/:id', (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
 
-  res.status(501).json({ error: 'Not implemented yet' });
+    const order = orders.find((o) => o.id === id);
+
+    if (!order) {
+      return res.status(404).json({
+        error: 'Order not found',
+        message: `Order with ID ${id} does not exist`,
+      });
+    }
+
+    return res.json(order);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
 });
 
-/**
- * POST /api/orders
- * Create a new order
- */
-router.post('/', (_req: Request, res: Response) => {
-  // TODO: Implement this endpoint
-  // 1. Validate the request body
-  // 2. Generate a unique ID for the new order
-  // 3. Add createdAt timestamp
-  // 4. Save to your data store
-  // 5. Return the created order with 201 status
+router.post('/', (req: Request, res: Response) => {
+  try {
+    const body = req.body as CreateOrderRequest;
 
-  res.status(501).json({ error: 'Not implemented yet' });
+    if (!body.customerName || !body.customerEmail || !body.customerPhone || !body.orderType || !body.items) {
+      return res.status(400).json({
+        error: 'Validation error',
+        message: 'Missing required fields: customerName, customerEmail, customerPhone, orderType, items',
+      });
+    }
+
+    if (!Array.isArray(body.items) || body.items.length === 0) {
+      return res.status(400).json({
+        error: 'Validation error',
+        message: 'Items must be a non-empty array',
+      });
+    }
+
+    for (const item of body.items) {
+      if (!item.name || item.quantity <= 0 || item.price < 0) {
+        return res.status(400).json({
+          error: 'Validation error',
+          message: 'Each item must have a name, positive quantity, and non-negative price',
+        });
+      }
+    }
+
+    const newId = `ord_${String(orders.length + 1).padStart(3, '0')}`;
+
+    const itemsWithIds = body.items.map((item, index) => ({
+      id: `item_${String(orders.length * 10 + index + 1).padStart(3, '0')}`,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
+    const total = itemsWithIds.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    const newOrder: Order = {
+      id: newId,
+      customerName: body.customerName,
+      customerEmail: body.customerEmail,
+      customerPhone: body.customerPhone,
+      customerRewardPoints: 0,
+      orderType: body.orderType,
+      status: 'pending',
+      items: itemsWithIds,
+      total: Math.round(total * 100) / 100,
+      createdAt: new Date().toISOString(),
+    };
+
+    orders.push(newOrder);
+
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
 });
 
-/**
- * PATCH /api/orders/:id
- * Update an order's status
- */
-router.patch('/:id', (_req: Request, res: Response) => {
-  // TODO: Implement this endpoint
-  // 1. Extract order ID from params
-  // 2. Validate the new status from request body
-  // 3. Find the order and update its status
-  // 4. Return 404 if order not found
-  // 5. Return the updated order
+router.patch('/:id', (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const body = req.body as UpdateOrderStatusRequest;
 
-  res.status(501).json({ error: 'Not implemented yet' });
+    if (!body.status) {
+      return res.status(400).json({
+        error: 'Validation error',
+        message: 'Status is required',
+      });
+    }
+
+    const validStatuses: OrderStatus[] = ['pending', 'preparing', 'ready', 'delivered'];
+    if (!validStatuses.includes(body.status)) {
+      return res.status(400).json({
+        error: 'Validation error',
+        message: `Status must be one of: ${validStatuses.join(', ')}`,
+      });
+    }
+
+    const orderIndex = orders.findIndex((o) => o.id === id);
+
+    if (orderIndex === -1) {
+      return res.status(404).json({
+        error: 'Order not found',
+        message: `Order with ID ${id} does not exist`,
+      });
+    }
+
+    orders[orderIndex] = {
+      ...orders[orderIndex],
+      status: body.status,
+    };
+
+    return res.json(orders[orderIndex]);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
 });
 
 export default router;
